@@ -24,7 +24,7 @@ namespace IDP_MJU20_Martin_Lindén
              */
             //declare variables
             string userInput = "";
-            int userNumber = 0, year, month, day, personNumber;
+            int userNumber = 0, year, month, day, birthNumber;
             bool numbercheck;
             //user instructions/ask for input
             int i = 0;
@@ -90,18 +90,35 @@ namespace IDP_MJU20_Martin_Lindén
                 return false;
             }
         }
-        //convert userinput
+        //convert userinput to year
         static int ConvertYear(string userInput)
         {
             string yearString = userInput.Substring(0, 4);
             int yearNumber = int.Parse(yearString);
             return yearNumber;
         }
-        //check year
-        //check month
-        //check day
+        //convert userinput to month
+        static int ConvertMonth(string userInput)
+        {
+            string monthString = userInput.Substring(0, 4);
+            int monthNumber = int.Parse(monthString);
+            return monthNumber;
+        }
+        //convert userinput to month
+        static int ConvertDay(string userInput)
+        {
+            string dayString = userInput.Substring(0, 4);
+            int dayNumber = int.Parse(dayString);
+            return dayNumber;
+        }
         //check leap year if feb 29
-        //check birthnumber
+        //convert userinput to personalnumber
+        static int ConvertBirthNumber(string userInput)
+        {
+            string birthNumberString = userInput.Substring(0, 4);
+            int birthNumberNumber = int.Parse(birthNumberString);
+            return birthNumberNumber;
+        }
         //check if male or female
         //print result message
     }
