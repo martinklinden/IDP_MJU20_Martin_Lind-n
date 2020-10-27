@@ -65,13 +65,13 @@ namespace IDP_MJU20_Martin_Lindén
                 {
                     ErrorMessage();
                 }
-                //check if correct day (according to month)
-                //check if leap year (only if february)
-                //check birthnumber
-                //check if male or female (third birthnumber)
+                //check if correct day (according to month) (todo)
+                //check if leap year (only if february) (todo) (else if in feb)
+                //check birthnumber (todo)
+                //check if male or female (third birthnumber) (todo)
             }
-            //print message to user if userinput is correct or not
-            //print message to user if number belongs to male/female
+            //print message to user if userinput is correct or not (todo)
+            //print message to user if number belongs to male/female (todo)
             //stop
             Console.ReadKey();
             //end
@@ -113,7 +113,7 @@ namespace IDP_MJU20_Martin_Lindén
             int monthNumber = int.Parse(monthString);
             return monthNumber;
         }
-        //convert userinput to month
+        //convert userinput to day
         static int ConvertDay(string userInput)
         {
             string dayString = userInput.Substring(6, 2);
@@ -129,6 +129,19 @@ namespace IDP_MJU20_Martin_Lindén
             return birthNumberNumber;
         }
         //check if male or female
+        static string CheckGender(int birthNumber)
+        {
+            string gender;
+            int genderNumber = birthNumber;
+            if (genderNumber % 2 == 0)
+            {
+                return gender = "Kvinna";
+            }
+            else
+            {
+                return gender = "Man";
+            }
+        }
         //print result message
     }
 }
