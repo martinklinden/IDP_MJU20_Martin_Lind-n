@@ -23,7 +23,7 @@ namespace IDP_MJU20_Martin_Lindén
              personen är man eller kvinna (juridisk).
              */
             //declare variables
-            string userInput = "";
+            string userInput = "", gender;
             int userNumber = 0, year, month, day, birthNumber;
             bool numbercheck;
             //user instructions/ask for input
@@ -41,10 +41,20 @@ namespace IDP_MJU20_Martin_Lindén
                     Console.WriteLine(userInput);
                     //check if correct year (1753 - 2020)
                     year = ConvertYear(userInput);
-                    if (year >= 1753 && year <=2020)
+                    if (year >= 1753 && year <= 2020)
                     {
                         Console.WriteLine(year);
-                        i++;
+                        //check if correct month
+                        month = ConvertMonth(userInput);
+                        if (month >= 1 && month <= 12)
+                        {
+                            Console.WriteLine(month);
+                            i++;
+                        }
+                        else
+                        {
+                            ErrorMessage();
+                        }
                     }
                     else
                     {
@@ -55,7 +65,6 @@ namespace IDP_MJU20_Martin_Lindén
                 {
                     ErrorMessage();
                 }
-                //check if correct month
                 //check if correct day (according to month)
                 //check if leap year (only if february)
                 //check birthnumber
@@ -67,7 +76,7 @@ namespace IDP_MJU20_Martin_Lindén
             Console.ReadKey();
             //end
         }
-        //methods
+        //methods:
         //error message
         static void ErrorMessage()
         {
@@ -100,14 +109,14 @@ namespace IDP_MJU20_Martin_Lindén
         //convert userinput to month
         static int ConvertMonth(string userInput)
         {
-            string monthString = userInput.Substring(0, 4);
+            string monthString = userInput.Substring(4, 2);
             int monthNumber = int.Parse(monthString);
             return monthNumber;
         }
         //convert userinput to month
         static int ConvertDay(string userInput)
         {
-            string dayString = userInput.Substring(0, 4);
+            string dayString = userInput.Substring(6, 2);
             int dayNumber = int.Parse(dayString);
             return dayNumber;
         }
@@ -115,7 +124,7 @@ namespace IDP_MJU20_Martin_Lindén
         //convert userinput to personalnumber
         static int ConvertBirthNumber(string userInput)
         {
-            string birthNumberString = userInput.Substring(0, 4);
+            string birthNumberString = userInput.Substring(8, 3);
             int birthNumberNumber = int.Parse(birthNumberString);
             return birthNumberNumber;
         }
