@@ -24,8 +24,8 @@ namespace IDP_MJU20_Martin_Lindén
              */
             //declare variables
             string userInput = "", gender;
-            int userNumber = 0, year, month, day, birthNumber;
-            bool numbercheck;
+            int year, month, day, birthNumber;
+            bool numberCheck,  correctDay;
             //user instructions/ask for input
             int i = 0;
             //loop
@@ -35,8 +35,8 @@ namespace IDP_MJU20_Martin_Lindén
                 //user input
                 userInput = Console.ReadLine();
                 //check if correct amount of numbers
-                numbercheck = AmountOfNumbers(userInput);
-                if (numbercheck == true)
+                numberCheck = AmountOfNumbers(userInput);
+                if (numberCheck == true)
                 {
                     Console.WriteLine(userInput);
                     //check if correct year (1753 - 2020)
@@ -49,7 +49,19 @@ namespace IDP_MJU20_Martin_Lindén
                         if (month >= 1 && month <= 12)
                         {
                             Console.WriteLine(month);
-                            i++;
+                            //check if correct day (according to month) (todo)
+                            //check if leap year (only if february) (todo) (else if in feb)
+                            day = ConvertDay(userInput);
+                            correctDay = DayCheck(day, month, year);
+                            if (correctDay == true)
+                            {
+                                Console.WriteLine(day);
+                                i++;
+                            }
+                            else
+                            {
+                                ErrorMessage();
+                            }
                         }
                         else
                         {
@@ -65,8 +77,6 @@ namespace IDP_MJU20_Martin_Lindén
                 {
                     ErrorMessage();
                 }
-                //check if correct day (according to month) (todo)
-                //check if leap year (only if february) (todo) (else if in feb)
                 //check birthnumber (todo)
                 //check if male or female (third birthnumber) (todo)
             }
@@ -120,8 +130,80 @@ namespace IDP_MJU20_Martin_Lindén
             int dayNumber = int.Parse(dayString);
             return dayNumber;
         }
-        //check leap year if feb 29
-        //convert userinput to personalnumber
+        //check if correct day and/or leap year if feb 29
+        static bool DayCheck(int day, int month, int year)
+        {
+            bool checkLeapYear;
+            if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
+            {
+                if (day >= 1 && day <= 31)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if(month == 4 || month == 6 || month == 9 || month == 11)
+            {
+                if (day >= 1 && day <= 30)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if(month == 2)
+            {
+                if (day >= 1 && day <= 28)
+                {
+                    return true;
+                }
+                else if(day == 29)
+                {
+                    checkLeapYear = LeapYearCheck(year);
+                    if(checkLeapYear == true)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        static bool LeapYearCheck(int year)
+        {
+            if(year % 400 == 0)
+            {
+                return true;
+            }
+            else if(year % 100 == 0)
+            {
+                return false;
+            }
+            else if(year % 4 == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //conver userinput to birthnumber
         static int ConvertBirthNumber(string userInput)
         {
             string birthNumberString = userInput.Substring(8, 3);
