@@ -23,22 +23,64 @@ namespace IDP_MJU20_Martin_Lindén
              personen är man eller kvinna (juridisk).
              */
             //declare variables
-            //user instructions
-            //ask for input
-            //convert input
-            //check if correct amout of numbers
-            //check if correct year (1753 - 2020)
-            //check if correct month
-            //check if correct day (according to month)
-            //check if leap year (only if february)
-            //check birthnumber
-            //check if male or female (third birthnumber)
+            string userInput = "";
+            int userNumber = 0, numberCheck = 0;
+            //user instructions/ask for input
+            int i = 0;
+            //loop
+            while (i == 0)
+            {
+                UserInstructions();
+                //user input
+                userInput = Console.ReadLine();
+                //check if correct amount of numbers
+                numberCheck = AmountOfNumbers(userInput);
+                if (numberCheck == 1)
+                {
+                    Console.WriteLine(numberCheck);
+                    i++;
+                }
+                else
+                {
+                    ErrorMessage();
+                }
+                //check if correct year (1753 - 2020)
+                //check if correct month
+                //check if correct day (according to month)
+                //check if leap year (only if february)
+                //check birthnumber
+                //check if male or female (third birthnumber)
+            }
             //print message to user if userinput is correct or not
             //print message to user if number belongs to male/female
             //stop
+            Console.ReadKey();
             //end
         }
         //methods
+        //error message
+        static void ErrorMessage()
+        {
+            Console.WriteLine("Inkorrekt personnummer, försök igen!");
+        }
+        //print instructions to user
+        static void UserInstructions()
+        {
+            Console.Write("Skriv in ett 12-siffrigt personnummer: ");
+        }
+        //check amount of numbers
+        static int AmountOfNumbers(string userInput)
+        {
+            int numberCheck = 0;
+            if (userInput.Length == 12)
+            {
+                return numberCheck = 1;
+            }
+            else
+            {
+                return numberCheck = 2;
+            }
+        }
         //convert userinput
         //check year
         //check month
