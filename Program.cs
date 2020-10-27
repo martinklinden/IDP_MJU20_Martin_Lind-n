@@ -22,6 +22,30 @@ namespace IDP_MJU20_Martin_Lindén
              7. Programmet ska skriva ut på skärmen om personnumret är korrekt och om
              personen är man eller kvinna (juridisk).
              */
+            //declare variables
+            //user instructions
+            //ask for input
+            //convert input
+            //check if correct amout of numbers
+            //check if correct year (1753 - 2020)
+            //check if correct month
+            //check if correct day (according to month)
+            //check if leap year (only if february)
+            //check birthnumber
+            //check if male or female (third birthnumber)
+            //print message to user if userinput is correct or not
+            //print message to user if number belongs to male/female
+            //stop
+            //end
         }
+        //methods
+        //convert userinput
+        //check year
+        //check month
+        //check day
+        //check leap year if feb 29
+        //check birthnumber
+        //check if male or female
+        //print result message
     }
 }
