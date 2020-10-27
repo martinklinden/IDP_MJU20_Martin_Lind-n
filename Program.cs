@@ -24,7 +24,8 @@ namespace IDP_MJU20_Martin_Lindén
              */
             //declare variables
             string userInput = "";
-            int userNumber = 0, numberCheck = 0;
+            int userNumber = 0;
+            bool numbercheck;
             //user instructions/ask for input
             int i = 0;
             //loop
@@ -34,10 +35,10 @@ namespace IDP_MJU20_Martin_Lindén
                 //user input
                 userInput = Console.ReadLine();
                 //check if correct amount of numbers
-                numberCheck = AmountOfNumbers(userInput);
-                if (numberCheck == 1)
+                numbercheck = AmountOfNumbers(userInput);
+                if (numbercheck == true)
                 {
-                    Console.WriteLine(numberCheck);
+                    Console.WriteLine(userInput);
                     i++;
                 }
                 else
@@ -69,16 +70,15 @@ namespace IDP_MJU20_Martin_Lindén
             Console.Write("Skriv in ett 12-siffrigt personnummer: ");
         }
         //check amount of numbers
-        static int AmountOfNumbers(string userInput)
+        static bool AmountOfNumbers(string userInput)
         {
-            int numberCheck = 0;
             if (userInput.Length == 12)
             {
-                return numberCheck = 1;
+                return true;
             }
             else
             {
-                return numberCheck = 2;
+                return false;
             }
         }
         //convert userinput
