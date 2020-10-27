@@ -24,7 +24,7 @@ namespace IDP_MJU20_Martin_Lindén
              */
             //declare variables
             string userInput = "";
-            int userNumber = 0;
+            int userNumber = 0, year, month, day, personNumber;
             bool numbercheck;
             //user instructions/ask for input
             int i = 0;
@@ -39,13 +39,22 @@ namespace IDP_MJU20_Martin_Lindén
                 if (numbercheck == true)
                 {
                     Console.WriteLine(userInput);
-                    i++;
+                    //check if correct year (1753 - 2020)
+                    year = ConvertYear(userInput);
+                    if (year >= 1753 && year <=2020)
+                    {
+                        Console.WriteLine(year);
+                        i++;
+                    }
+                    else
+                    {
+                        ErrorMessage();
+                    }
                 }
                 else
                 {
                     ErrorMessage();
                 }
-                //check if correct year (1753 - 2020)
                 //check if correct month
                 //check if correct day (according to month)
                 //check if leap year (only if february)
@@ -82,6 +91,12 @@ namespace IDP_MJU20_Martin_Lindén
             }
         }
         //convert userinput
+        static int ConvertYear(string userInput)
+        {
+            string yearString = userInput.Substring(0, 4);
+            int yearNumber = int.Parse(yearString);
+            return yearNumber;
+        }
         //check year
         //check month
         //check day
