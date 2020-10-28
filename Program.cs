@@ -49,13 +49,21 @@ namespace IDP_MJU20_Martin_Lindén
                         if (month >= 1 && month <= 12)
                         {
                             Console.WriteLine(month);
-                            //check if correct day (according to month) (todo)
-                            //check if leap year (only if february) (todo) (else if in feb)
+                            //check if correct day (according to month)
+                            //check if leap year (only if february)
                             day = ConvertDay(userInput);
                             correctDay = DayCheck(day, month, year);
                             if (correctDay == true)
                             {
                                 Console.WriteLine(day);
+                                //check birthnumber
+                                birthNumber = ConvertBirthNumber(userInput);
+                                Console.WriteLine(birthNumber);
+                                //check if male or female
+                                gender = CheckGender(birthNumber);
+                                Console.WriteLine(gender);
+                                //print message to user if number belongs to male/female and that it is a correct personalnumber
+                                EndMessage(gender);
                                 i++;
                             }
                             else
@@ -77,11 +85,7 @@ namespace IDP_MJU20_Martin_Lindén
                 {
                     ErrorMessage();
                 }
-                //check birthnumber (todo)
-                //check if male or female (third birthnumber) (todo)
             }
-            //print message to user if userinput is correct or not (todo)
-            //print message to user if number belongs to male/female (todo)
             //stop
             Console.ReadKey();
             //end
@@ -217,13 +221,18 @@ namespace IDP_MJU20_Martin_Lindén
             int genderNumber = birthNumber;
             if (genderNumber % 2 == 0)
             {
-                return gender = "Kvinna";
+                return gender = "kvinna";
             }
             else
             {
-                return gender = "Man";
+                return gender = "man";
             }
         }
         //print result message
+        static void EndMessage (string gender)
+        {
+            Console.WriteLine("Personnummret du har anget är ett korrekt personnummer och tillhör en {0}", gender);
+            Console.WriteLine("Hejdå!");
+        }
     }
 }
