@@ -6,58 +6,65 @@ namespace IDP_MJU20_Martin_Lindén
     {
         static void Main(string[] args)
         {
-            //declare variables
-            string userInput = "", gender;
-            int year, month, day, birthNumber;
-            bool numberCheck,  correctDay, correctLastNumber;
-            //user instructions/ask for input
-            int i = 0;
-            //loop
-            while (i == 0)
+            try
             {
-                UserInstructions();
-                //user input
-                userInput = Console.ReadLine();
-                //check if correct amount of numbers
-                numberCheck = AmountOfNumbers(userInput);
-                if (numberCheck == true)
+                //declare variables
+                string userInput = "", gender;
+                int year, month, day, birthNumber;
+                bool numberCheck, correctDay, correctLastNumber;
+                //user instructions/ask for input
+                int i = 0;
+                //loop
+                while (i == 0)
                 {
-                    Console.WriteLine(userInput);
-                    //check if correct year (1753 - 2020)
-                    year = ConvertYear(userInput);
-                    if (year >= 1753 && year <= 2020)
+                    UserInstructions();
+                    //user input
+                    userInput = Console.ReadLine();
+                    //check if correct amount of numbers
+                    numberCheck = AmountOfNumbers(userInput);
+                    if (numberCheck == true)
                     {
-                        Console.WriteLine(year);
-                        //check if correct month
-                        month = ConvertMonth(userInput);
-                        if (month >= 1 && month <= 12)
+                        Console.WriteLine(userInput);
+                        //check if correct year (1753 - 2020)
+                        year = ConvertYear(userInput);
+                        if (year >= 1753 && year <= 2020)
                         {
-                            Console.WriteLine(month);
-                            //check if correct day (according to month)
-                            //check if leap year (only if february)
-                            day = ConvertDay(userInput);
-                            correctDay = DayCheck(day, month, year);
-                            if (correctDay == true)
+                            Console.WriteLine(year);
+                            //check if correct month
+                            month = ConvertMonth(userInput);
+                            if (month >= 1 && month <= 12)
                             {
-                                Console.WriteLine(day);
-                                //check birthnumber
-                                birthNumber = ConvertBirthNumber(userInput);
-                                Console.WriteLine(birthNumber);
-                                //check if male or female
-                                gender = CheckGender(birthNumber);
-                                Console.WriteLine(gender);
-                                correctLastNumber = CheckLastNumber(userInput);
-                                if(correctLastNumber == true)
+                                Console.WriteLine(month);
+                                //check if correct day (according to month)
+                                //check if leap year (only if february)
+                                day = ConvertDay(userInput);
+                                correctDay = DayCheck(day, month, year);
+                                if (correctDay == true)
                                 {
-                                    //print message to user if number belongs to male/female and that it is a correct personalnumber
-                                    EndMessage(gender);
-                                    i++;
+                                    Console.WriteLine(day);
+                                    //check birthnumber
+                                    birthNumber = ConvertBirthNumber(userInput);
+                                    Console.WriteLine(birthNumber);
+                                    //check if male or female
+                                    gender = CheckGender(birthNumber);
+                                    Console.WriteLine(gender);
+                                    correctLastNumber = CheckLastNumber(userInput);
+                                    if (correctLastNumber == true)
+                                    {
+                                        //print message to user if number belongs to male/female and that it is a correct personalnumber
+                                        EndMessage(gender);
+                                        i++;
+                                    }
+                                    else
+                                    {
+                                        ErrorMessage();
+                                    }
+
                                 }
                                 else
                                 {
                                     ErrorMessage();
                                 }
-
                             }
                             else
                             {
@@ -74,14 +81,14 @@ namespace IDP_MJU20_Martin_Lindén
                         ErrorMessage();
                     }
                 }
-                else
-                {
-                    ErrorMessage();
-                }
+                //stop
+                Console.ReadKey();
+                //end
             }
-            //stop
-            Console.ReadKey();
-            //end
+            catch(Exception e)
+            {
+                ErrorMessage();
+            }
         }
         //methods:
         //error message
@@ -231,7 +238,7 @@ namespace IDP_MJU20_Martin_Lindén
             int seeIfCorrect = collectNumbers + lastNumber;
             if (seeIfCorrect % 10 == 0)
             {
-                Console.WriteLine("Summan är {0} och det är korrekt!", seeIfCorrect);
+                Console.WriteLine("Summan av Luhn {0} och det är korrekt!", seeIfCorrect);
                 return true;
             }
             else
