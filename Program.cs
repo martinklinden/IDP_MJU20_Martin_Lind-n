@@ -6,26 +6,10 @@ namespace IDP_MJU20_Martin_Lindén
     {
         static void Main(string[] args)
         {
-            /*
-             Du ska utgå från att användaren anger tolv siffror så du behöver inte ha någon form av
-             felhantering för detta.
-             Programmet frågar användaren efter ett 12-siffrigt personnummer YYYYMMDDnnnc –
-             användaren ska skriva in hela numret och får inte dela upp det – och kontroller om det är
-             korrekt uppbyggt enligt följande:
-             1. Rätt antal siffror dvs 12
-             2. Årtalet ska vara från 1753 till och med 2020 (Sverige bytte kalender 1753)
-             3. Månaden ska var giltig 1 – 12
-             4. Dagen ska vara giltig och kontrolleras mot månaden (se nedan)
-             5. Födelsenumret nnn ska vara 000 – 999
-             6. Kontrollera kön. Födelsenumret är udda för män och jämnt för kvinnor
-             (OBS! 0 betraktas i detta fall som jämn dvs kvinna)
-             7. Programmet ska skriva ut på skärmen om personnumret är korrekt och om
-             personen är man eller kvinna (juridisk).
-             */
             //declare variables
             string userInput = "", gender;
             int year, month, day, birthNumber;
-            bool numberCheck,  correctDay;
+            bool numberCheck,  correctDay, correctLastNumber;
             //user instructions/ask for input
             int i = 0;
             //loop
@@ -62,9 +46,18 @@ namespace IDP_MJU20_Martin_Lindén
                                 //check if male or female
                                 gender = CheckGender(birthNumber);
                                 Console.WriteLine(gender);
-                                //print message to user if number belongs to male/female and that it is a correct personalnumber
-                                EndMessage(gender);
-                                i++;
+                                correctLastNumber = CheckLastNumber(userInput);
+                                if(correctLastNumber == true)
+                                {
+                                    //print message to user if number belongs to male/female and that it is a correct personalnumber
+                                    EndMessage(gender);
+                                    i++;
+                                }
+                                else
+                                {
+                                    ErrorMessage();
+                                }
+
                             }
                             else
                             {
@@ -227,6 +220,63 @@ namespace IDP_MJU20_Martin_Lindén
             {
                 return gender = "man";
             }
+        }
+        //check if last number is correct
+        static bool CheckLastNumber(string userInput)
+        {
+            //convert last number to int
+            string lastNumberString = userInput.Substring(11, 1);
+            int lastNumber = int.Parse(lastNumberString);
+            int collectNumbers = LuhnAlgorithm(userInput);
+            int seeIfCorrect = collectNumbers + lastNumber;
+            if (seeIfCorrect % 10 == 0)
+            {
+                Console.WriteLine("Summan är {0} och det är korrekt!", seeIfCorrect);
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Summan av Luhn är {0} och det är fel!", seeIfCorrect);
+                return false;
+            }
+        }
+        //luhn algorithm (last number)
+        static int LuhnAlgorithm(string userInput)
+        {
+            int collectNumbers = 0;
+            //for loop
+            for (int i = 2; i <= 10; i++)
+            {
+                //Console.WriteLine(userInput[i]);
+                //convert current number to int
+                string numberString = userInput.Substring(i, 1);
+                int number = int.Parse(numberString);
+                //if place in array (i) is dividable with 2
+                if (i % 2 == 0)
+                {
+                    int number2 = number * 2;
+                    if (number2 >= 10)
+                    {
+                        string string2 = number2.ToString();
+                        string string3 = string2.Substring(0, 1);
+                        int number3 = int.Parse(string3);
+                        collectNumbers = collectNumbers + number3;
+                        string string4 = string2.Substring(1, 1);
+                        int number4 = int.Parse(string4);
+                        collectNumbers = collectNumbers + number4;
+
+                    }
+                    else
+                    {
+                        collectNumbers = collectNumbers + number2;
+                    }
+                }
+                else
+                {
+                    collectNumbers = collectNumbers + number;
+                }
+            }
+            return collectNumbers;
         }
         //print result message
         static void EndMessage (string gender)
