@@ -9,9 +9,9 @@ namespace IDP_MJU20_Martin_Lindén
             try
             {
                 //declare variables
-                string userInput = "", gender;
-                int year, month, day, birthNumber;
-                bool numberCheck, correctDay, correctLastNumber;
+                string userInput = "", gender = "", shorterPersonalNumber = "", divider = "";
+                int year, month, day, birthNumber, length;
+                bool numberCheck, yearCheck, correctDay, correctLastNumber;
                 //user instructions/ask for input
                 int i = 0;
                 //loop
@@ -25,30 +25,34 @@ namespace IDP_MJU20_Martin_Lindén
                     if (numberCheck == true)
                     {
                         Console.WriteLine(userInput);
-                        //check if correct year (1753 - 2020)
-                        year = ConvertYear(userInput);
-                        if (year >= 1753 && year <= 2020)
+                        length = LengthMethod(userInput);
+                        divider = DividerCheck(userInput);
+                        shorterPersonalNumber = MakeShorterPersonalNumber(userInput, length);
+                        //check if correct year
+                        year = ConvertYear(userInput, length);
+                        yearCheck = YearCheck(year, length);
+                        if (yearCheck == true)
                         {
                             Console.WriteLine(year);
                             //check if correct month
-                            month = ConvertMonth(userInput);
+                            month = ConvertMonth(shorterPersonalNumber);
                             if (month >= 1 && month <= 12)
                             {
                                 Console.WriteLine(month);
                                 //check if correct day (according to month)
                                 //check if leap year (only if february)
-                                day = ConvertDay(userInput);
-                                correctDay = DayCheck(day, month, year);
+                                day = ConvertDay(shorterPersonalNumber);
+                                correctDay = DayCheck(day, month, year, length, divider);
                                 if (correctDay == true)
                                 {
                                     Console.WriteLine(day);
                                     //check birthnumber
-                                    birthNumber = ConvertBirthNumber(userInput);
+                                    birthNumber = ConvertBirthNumber(shorterPersonalNumber);
                                     Console.WriteLine(birthNumber);
                                     //check if male or female
                                     gender = CheckGender(birthNumber);
                                     Console.WriteLine(gender);
-                                    correctLastNumber = CheckLastNumber(userInput);
+                                    correctLastNumber = CheckLastNumber(shorterPersonalNumber);
                                     if (correctLastNumber == true)
                                     {
                                         //print message to user if number belongs to male/female and that it is a correct personalnumber
@@ -59,7 +63,6 @@ namespace IDP_MJU20_Martin_Lindén
                                     {
                                         ErrorMessage();
                                     }
-
                                 }
                                 else
                                 {
@@ -99,12 +102,12 @@ namespace IDP_MJU20_Martin_Lindén
         //print instructions to user
         static void UserInstructions()
         {
-            Console.Write("Skriv in ett 12-siffrigt personnummer: ");
+            Console.Write("Skriv in ett 12-siffrigt personnummer eller ett 10-siffrigt personnummer(med - eller + som avskilljare till de 4 sista siffrorna): ");
         }
         //check amount of numbers
         static bool AmountOfNumbers(string userInput)
         {
-            if (userInput.Length == 12)
+            if (userInput.Length == 12 || userInput.Length == 11)
             {
                 return true;
             }
@@ -113,29 +116,95 @@ namespace IDP_MJU20_Martin_Lindén
                 return false;
             }
         }
-        //convert userinput to year
-        static int ConvertYear(string userInput)
+        //mthod for array-/stringlength
+        static int LengthMethod(string userInput)
         {
-            string yearString = userInput.Substring(0, 4);
-            int yearNumber = int.Parse(yearString);
-            return yearNumber;
+            int length = userInput.Length;
+            return length;
+        }
+        //divider check
+        static string DividerCheck(string userInput)
+        {
+            string dividerSign = userInput.Substring(6, 1);
+            return dividerSign;
+        }
+        //convert userinput to year
+        static int ConvertYear(string userInput, int length)
+        {
+            if(length == 12)
+            {
+                string yearString = userInput.Substring(0, 4);
+                int yearNumber = int.Parse(yearString);
+                return yearNumber;
+            }
+            else
+            {
+                string yearString = userInput.Substring(0, 2);
+                int yearNumber = int.Parse(yearString);
+                return yearNumber;
+            }
+        }
+        static bool YearCheck(int year, int length)
+        {
+            if(length == 12)
+            {
+                if (year >= 1753 && year <= 2020)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else if(length == 11)
+            {
+                if(year >= 0 && year <= 99)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //make shorter personal number
+        static string MakeShorterPersonalNumber(string userInput, int length)
+        {
+            string shorterPersonalNumber;
+            if(length == 12)
+            {
+                shorterPersonalNumber = userInput.Substring(2, 10);
+                return shorterPersonalNumber;
+            }
+            else
+            {
+                string a = userInput.Substring(0, 6);
+                string b = userInput.Substring(7, 4);
+                return shorterPersonalNumber = a + b;
+            }
         }
         //convert userinput to month
-        static int ConvertMonth(string userInput)
+        static int ConvertMonth(string shorterPersonalNumber)
         {
-            string monthString = userInput.Substring(4, 2);
+            string monthString = shorterPersonalNumber.Substring(2, 2);
             int monthNumber = int.Parse(monthString);
             return monthNumber;
         }
         //convert userinput to day
-        static int ConvertDay(string userInput)
+        static int ConvertDay(string shorterPersonalnumber)
         {
-            string dayString = userInput.Substring(6, 2);
+            string dayString = shorterPersonalnumber.Substring(4, 2);
             int dayNumber = int.Parse(dayString);
             return dayNumber;
         }
         //check if correct day and/or leap year if feb 29
-        static bool DayCheck(int day, int month, int year)
+        static bool DayCheck(int day, int month, int year, int length, string divider)
         {
             bool checkLeapYear;
             if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
@@ -168,7 +237,7 @@ namespace IDP_MJU20_Martin_Lindén
                 }
                 else if(day == 29)
                 {
-                    checkLeapYear = LeapYearCheck(year);
+                    checkLeapYear = LeapYearCheck(year, length, divider);
                     if(checkLeapYear == true)
                     {
                         return true;
@@ -188,29 +257,42 @@ namespace IDP_MJU20_Martin_Lindén
                 return false;
             }
         }
-        static bool LeapYearCheck(int year)
+        static bool LeapYearCheck(int year, int length, string divider)
         {
-            if(year % 400 == 0)
+            if(length == 12)
             {
-                return true;
+                if (year % 400 == 0)
+                {
+                    return true;
+                }
+                else if (year % 100 == 0)
+                {
+                    return false;
+                }
+                else if (year % 4 == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else if(year % 100 == 0)
+            else if(length == 11)
             {
+
                 return false;
-            }
-            else if(year % 4 == 0)
-            {
-                return true;
             }
             else
             {
                 return false;
             }
+
         }
         //conver userinput to birthnumber
-        static int ConvertBirthNumber(string userInput)
+        static int ConvertBirthNumber(string shorterPersonalNumber)
         {
-            string birthNumberString = userInput.Substring(8, 3);
+            string birthNumberString = shorterPersonalNumber.Substring(6, 3);
             int birthNumberNumber = int.Parse(birthNumberString);
             return birthNumberNumber;
         }
@@ -229,12 +311,12 @@ namespace IDP_MJU20_Martin_Lindén
             }
         }
         //check if last number is correct
-        static bool CheckLastNumber(string userInput)
+        static bool CheckLastNumber(string shorterPersonalnumber)
         {
             //convert last number to int
-            string lastNumberString = userInput.Substring(11, 1);
+            string lastNumberString = shorterPersonalnumber.Substring(9, 1);
             int lastNumber = int.Parse(lastNumberString);
-            int collectNumbers = LuhnAlgorithm(userInput);
+            int collectNumbers = LuhnAlgorithm(shorterPersonalnumber);
             int seeIfCorrect = collectNumbers + lastNumber;
             if (seeIfCorrect % 10 == 0)
             {
@@ -252,7 +334,7 @@ namespace IDP_MJU20_Martin_Lindén
         {
             int collectNumbers = 0;
             //for loop
-            for (int i = 2; i <= 10; i++)
+            for (int i = 0; i <= 8; i++)
             {
                 //Console.WriteLine(userInput[i]);
                 //convert current number to int
