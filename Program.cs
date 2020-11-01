@@ -11,7 +11,7 @@ namespace IDP_MJU20_Martin_Lindén
                 //declare variables
                 string userInput = "", gender = "", shorterPersonalNumber = "", divider = "";
                 int year, month, day, birthNumber, length;
-                bool dividerCheck, yearCheck, correctDay, correctLastNumber;
+                bool dividerCheck, yearCheck, correctDay, correctLastNumber, numberCheck;
                 //user instructions/ask for input
                 int i = 0;
                 //loop
@@ -25,41 +25,48 @@ namespace IDP_MJU20_Martin_Lindén
                     if (length == 12 || length == 11)
                     {
                         Console.WriteLine(userInput);
-                        //skapa en tryparse check för alla tecken
                         divider = SaveDivider(userInput, length);
                         dividerCheck = CheckDivider(divider, length);
                         if(dividerCheck == true)
                         {
                             shorterPersonalNumber = MakeShorterPersonalNumber(userInput, length);
-                            //check if correct year
-                            year = ConvertYear(userInput, length);
-                            yearCheck = YearCheck(year, length);
-                            if (yearCheck == true)
+                            numberCheck = CheckIfNumbers(shorterPersonalNumber, userInput, length);
+                            if(numberCheck == true)
                             {
-                                Console.WriteLine(year);
-                                //check if correct month
-                                month = ConvertMonth(shorterPersonalNumber);
-                                if (month >= 1 && month <= 12)
+                                //check if correct year
+                                year = ConvertYear(userInput, length);
+                                yearCheck = YearCheck(year, length);
+                                if (yearCheck == true)
                                 {
-                                    Console.WriteLine(month);
-                                    //check if correct day (according to month) and check if leap year (only if february)
-                                    day = ConvertDay(shorterPersonalNumber);
-                                    correctDay = DayCheck(day, month, year, length, divider);
-                                    if (correctDay == true)
+                                    Console.WriteLine(year);
+                                    //check if correct month
+                                    month = ConvertMonth(shorterPersonalNumber);
+                                    if (month >= 1 && month <= 12)
                                     {
-                                        Console.WriteLine(day);
-                                        //check birthnumber
-                                        birthNumber = ConvertBirthNumber(shorterPersonalNumber);
-                                        Console.WriteLine(birthNumber);
-                                        //check if male or female
-                                        gender = CheckGender(birthNumber);
-                                        Console.WriteLine(gender);
-                                        correctLastNumber = CheckLastNumber(shorterPersonalNumber);
-                                        if (correctLastNumber == true)
+                                        Console.WriteLine(month);
+                                        //check if correct day (according to month) and check if leap year (only if february)
+                                        day = ConvertDay(shorterPersonalNumber);
+                                        correctDay = DayCheck(day, month, year, length, divider);
+                                        if (correctDay == true)
                                         {
-                                            //print message to user if number belongs to male/female and that it is a correct personalnumber
-                                            EndMessage(gender);
-                                            i++;
+                                            Console.WriteLine(day);
+                                            //check birthnumber
+                                            birthNumber = ConvertBirthNumber(shorterPersonalNumber);
+                                            Console.WriteLine(birthNumber);
+                                            //check if male or female
+                                            gender = CheckGender(birthNumber);
+                                            Console.WriteLine(gender);
+                                            correctLastNumber = CheckLastNumber(shorterPersonalNumber);
+                                            if (correctLastNumber == true)
+                                            {
+                                                //print message to user if number belongs to male/female and that it is a correct personalnumber
+                                                EndMessage(gender);
+                                                i++;
+                                            }
+                                            else
+                                            {
+                                                ErrorMessage();
+                                            }
                                         }
                                         else
                                         {
@@ -209,6 +216,20 @@ namespace IDP_MJU20_Martin_Lindén
                 string a = userInput.Substring(0, 6);
                 string b = userInput.Substring(7, 4);
                 return shorterPersonalNumber = a + b;
+            }
+        }
+        //check if numbers
+        static bool CheckIfNumbers(string shorterPersonalNumber, string userInput, int length)
+        {
+            long number;
+            bool numberCheck;
+            if(length == 12)
+            {
+                return numberCheck = long.TryParse(userInput, out number);
+            }
+            else
+            {
+                return numberCheck = long.TryParse(shorterPersonalNumber, out number);
             }
         }
         //convert userinput to month
