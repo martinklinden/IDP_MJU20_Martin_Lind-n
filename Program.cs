@@ -304,6 +304,58 @@ namespace IDP_MJU20_Martin_Lindén
         {
             if(length == 12)
             {
+               return LeapYearCalc(year);
+            }
+            else if(length == 11)
+            {  
+                if(divider == "-")
+                {
+                    if(year >= 0 && year <= 20)
+                    {
+                        year = year + 2000;
+                        return LeapYearCalc(year);
+                    }
+                    else if(year >= 21 && year <= 99)
+                    {
+                        year = year + 1900;
+                        return LeapYearCalc(year);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else if (divider == "+")
+                {
+                    if (year >= 0 && year <= 20)
+                    {
+                        year = year + 1900;
+                        return LeapYearCalc(year);
+                    }
+                    else if (year >= 21 && year <= 99)
+                    {
+                        year = year + 1800;
+                        return LeapYearCalc(year);
+                    }
+                    else
+                    {
+                        return false;
+
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //leap year calculations
+        static bool LeapYearCalc(int year)
+        {
                 if (year % 400 == 0)
                 {
                     return true;
@@ -320,20 +372,9 @@ namespace IDP_MJU20_Martin_Lindén
                 {
                     return false;
                 }
-            }
-            else if(length == 11)
-            {
-
-                return false;
-            }
-            else
-            {
-                return false;
-            }
-
         }
-        //conver userinput to birthnumber
-        static int ConvertBirthNumber(string shorterPersonalNumber)
+            //conver userinput to birthnumber
+            static int ConvertBirthNumber(string shorterPersonalNumber)
         {
             string birthNumberString = shorterPersonalNumber.Substring(6, 3);
             int birthNumberNumber = int.Parse(birthNumberString);
@@ -396,7 +437,6 @@ namespace IDP_MJU20_Martin_Lindén
                         string string4 = string2.Substring(1, 1);
                         int number4 = int.Parse(string4);
                         collectNumbers = collectNumbers + number4;
-
                     }
                     else
                     {
